@@ -2,56 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kerusakan;
+use App\Models\Gejala;
 use Illuminate\Http\Request;
 
-class KerusakanController extends Controller
+class GejalaController extends Controller
 {
     public function index()
     {
-        $kerusakans = Kerusakan::orderBy('kode_kerusakan')->get();
-        return view('kerusakan.index', compact('kerusakans'));
+        $gejalas = Gejala::orderBy('kode_gejala')->get();
+        return view('gejala.index', compact('gejalas'));
     }
     
     public function create()
     {
-        return view('kerusakan.create');
+        return view('gejala.create');
     }
     
     public function store(Request $request)
     {
         $request->validate([
-            'kode_kerusakan' => 'required|unique:kerusakans',
-            'nama_kerusakan' => 'required',
-            'penyebab' => 'required',
-            'solusi' => 'required'
+            'kode_gejala' => 'required|unique:gejalas',
+            'nama_gejala' => 'required'
         ]);
         
-        Kerusakan::create($request->all());
-        return redirect()->route('kerusakan.index')->with('success', 'Data kerusakan berhasil ditambahkan');
+        Gejala::create($request->all());
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil ditambahkan');
     }
     
-    public function edit(Kerusakan $kerusakan)
+    public function edit(Gejala $gejala)
     {
-        return view('kerusakan.edit', compact('kerusakan'));
+        return view('gejala.edit', compact('gejala'));
     }
     
-    public function update(Request $request, Kerusakan $kerusakan)
+    public function update(Request $request, Gejala $gejala)
     {
         $request->validate([
-            'kode_kerusakan' => 'required|unique:kerusakans,kode_kerusakan,' . $kerusakan->id,
-            'nama_kerusakan' => 'required',
-            'penyebab' => 'required',
-            'solusi' => 'required'
+            'kode_gejala' => 'required|unique:gejalas,kode_gejala,' . $gejala->id,
+            'nama_gejala' => 'required'
         ]);
         
-        $kerusakan->update($request->all());
-        return redirect()->route('kerusakan.index')->with('success', 'Data kerusakan berhasil diupdate');
+        $gejala->update($request->all());
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil diupdate');
     }
     
-    public function destroy(Kerusakan $kerusakan)
+    public function destroy(Gejala $gejala)
     {
-        $kerusakan->delete();
-        return redirect()->route('kerusakan.index')->with('success', 'Data kerusakan berhasil dihapus');
+        $gejala->delete();
+        return redirect()->route('gejala.index')->with('success', 'Data gejala berhasil dihapus');
     }
 }
