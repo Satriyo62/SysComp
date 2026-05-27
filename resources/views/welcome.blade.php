@@ -43,7 +43,16 @@
             <a class="navbar-brand fw-bold" href="#">Sistem Pakar Hardware</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Admin</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('kontak') }}">
+                            <i class="bi bi-envelope"></i> Kontak Pengembang
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">
+                            <i class="bi bi-shield-lock"></i> Admin
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

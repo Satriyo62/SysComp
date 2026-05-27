@@ -35,18 +35,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('konsultasi.create') }}">
-                            <i class="bi bi-chat-dots"></i> Konsultasi
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('kontak') }}">
                             <i class="bi bi-envelope"></i> Kontak Pengembang
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">
-                            <i class="bi bi-shield-lock"></i> Admin
                         </a>
                     </li>
                 </ul>

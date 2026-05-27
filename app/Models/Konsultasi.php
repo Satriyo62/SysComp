@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Konsultasi extends Model
 {
-    protected $fillable = ['nama', 'jenis_kelamin', 'umur', 'pekerjaan', 'hasil_diagnosa', 'cf_akhir'];
+    protected $fillable = ['nama', 'jenis_kelamin', 'umur', 'pekerjaan', 'hasil_diagnosa', 'cf_akhir', 'semua_hasil'];
+    
+    protected $casts = [
+        'semua_hasil' => 'array', // untuk menyimpan array ranking kerusakan
+    ];
     
     public function gejalas()
     {

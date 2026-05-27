@@ -13,6 +13,7 @@
         }
         .header { text-align: center; margin-bottom: 30px; }
         .hasil { background: #e8f4f8; padding: 15px; border-radius: 10px; }
+        .ranking-table { margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -26,6 +27,8 @@
         <div class="row">
             <div class="col-12">
                 <h5>HASIL KONSULTASI</h5>
+                
+                <!-- Tabel Biodata -->
                 <table class="table table-bordered">
                     <tr><th width="150">Nama</th><td>{{ $konsultasi->nama }}</td></tr>
                     <tr><th>Jenis Kelamin</th><td>{{ $konsultasi->jenis_kelamin }}</td></tr>
@@ -33,24 +36,66 @@
                     <tr><th>Tanggal Konsultasi</th><td>{{ $konsultasi->created_at->format('d/m/Y H:i') }}</td></tr>
                 </table>
                 
-                <h5>Gejala yang Dialami:</h5>
+                <!-- Gejala Terpilih -->
+                <h5 class="mt-4">Gejala yang Dialami:</h5>
                 <ul>
                     @foreach($gejalaDipilih as $g)
                     <li>{{ $g->kode_gejala }} - {{ $g->nama_gejala }} (Keyakinan: {{ $g->pivot->cf_user * 100 }}%)</li>
                     @endforeach
                 </ul>
                 
+                <!-- Hasil Analisa -->
                 <div class="hasil">
-                    <h5>Hasil Diagnosa:</h5>
-                    <h4>{{ $konsultasi->hasil_diagnosa ?? 'Tidak Terdeteksi' }}</h4>
+                    <h5>Hasil Analisa:</h5>
+                    <h4>Terdiagnosa Sebagai: <strong>{{ $konsultasi->hasil_diagnosa ?? 'Tidak Terdeteksi' }}</strong> ({{ $konsultasi->cf_akhir ?? 0 }}%)</h4>
                     
-                    <h5 class="mt-3">Tingkat Keyakinan:</h5>
-                    <h4>{{ $konsultasi->cf_akhir ?? 0 }}%</h4>
+                    @php
+                        $tertinggi = $semuaHasil[0] ?? null;
+                    @endphp
+                    @if($tertinggi)
+                        <h5 class="mt-3">Solusi:</h5>
+                        <p>{{ $tertinggi['solusi'] ?? '-' }}</p>
+                        
+                        <h5>Penyebab:</h5>
+                        <ul>
+                            @foreach(explode("\n", $tertinggi['penyebab'] ?? '-') as $penyebab)
+                                @if(trim($penyebab))
+                                    <li>{{ trim($penyebab) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
                 
+                <!-- Tabel Ranking Kerusakan (Seperti di PDF Gambar 9) -->
+                <div class="ranking-table">
+                    <h5>Tabel Ranking Kemungkinan Kerusakan:</h5>
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th width="50">No</th>
+                                <th>Kerusakan</th>
+                                <th width="150">Kepercayaan CF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($semuaHasil as $index => $item)
+                            <tr @if($index == 0) style="background-color: #d4edda;" @endif>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $item['nama_kerusakan'] ?? '-' }}</td>
+                                <td class="fw-bold">{{ $item['cf_persen'] ?? 0 }}%</td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="3" class="text-center">Tidak ada data</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Tombol Cetak -->
                 <div class="text-center mt-4 no-print">
                     <button onclick="window.print()" class="btn btn-primary">Cetak / Simpan PDF</button>
-                    <button onclick="window.close()" class="btn btn-secondary">Tutup</button>
+                    <a href="{{ route('konsultasi.hasil', $konsultasi) }}" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
         </div>

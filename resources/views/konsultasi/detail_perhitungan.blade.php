@@ -59,9 +59,6 @@
                         <a href="{{ route('konsultasi.hasil', $konsultasi) }}" class="btn btn-primary">
                             <i class="bi bi-arrow-left"></i> Kembali ke Hasil
                         </a>
-                        <a href="{{ route('konsultasi.cetak', $konsultasi) }}" class="btn btn-success" target="_blank">
-                            <i class="bi bi-printer"></i> Cetak
-                        </a>
                     </div>
                 </div>
             </div>
