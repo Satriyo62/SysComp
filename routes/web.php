@@ -24,6 +24,7 @@ Route::post('/konsultasi/biodata', [KonsultasiController::class, 'storeBiodata']
 Route::get('/konsultasi/{konsultasi}/gejala', [KonsultasiController::class, 'pilihGejala'])->name('konsultasi.gejala');
 Route::post('/konsultasi/{konsultasi}/proses', [KonsultasiController::class, 'prosesKonsultasi'])->name('konsultasi.proses');
 Route::get('/konsultasi/{konsultasi}/hasil', [KonsultasiController::class, 'hasil'])->name('konsultasi.hasil');
+Route::get('/konsultasi/{konsultasi}/detail-perhitungan', [KonsultasiController::class, 'detailPerhitungan'])->name('konsultasi.detail_perhitungan');
 Route::get('/konsultasi/{konsultasi}/cetak', [KonsultasiController::class, 'cetak'])->name('konsultasi.cetak');
 
 // ========== AREA ADMIN (DILINDUNGI MIDDLEWARE) ==========

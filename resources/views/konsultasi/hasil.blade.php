@@ -47,6 +47,9 @@
                     
                     <!-- Tombol Aksi -->
                     <div class="d-flex gap-2 mt-4">
+                        <a href="{{ route('konsultasi.detail_perhitungan', $konsultasi) }}" class="btn btn-info">
+                            <i class="bi bi-calculator"></i> Lihat Rumus Perhitungan
+                        </a>
                         <a href="{{ route('konsultasi.cetak', $konsultasi) }}" class="btn btn-primary" target="_blank">
                             <i class="bi bi-printer"></i> Cetak Hasil
                         </a>

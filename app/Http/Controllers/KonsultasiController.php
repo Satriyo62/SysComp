@@ -147,4 +147,50 @@ class KonsultasiController extends Controller
         $konsultasis = Konsultasi::latest()->get();
         return view('konsultasi.index', compact('konsultasis'));
     }
+
+    // Method ini untuk menampilkan detail perhitungan CF
+    public function detailPerhitungan(Konsultasi $konsultasi)
+    {
+        $gejalaDipilih = $konsultasi->gejalas;
+        
+        // Hitung detail perhitungan CF
+        $detailPerhitungan = [];
+        $cfValues = [];
+        
+        foreach ($gejalaDipilih as $g) {
+            // Cari rule yang cocok
+            $rules = Rule::where('gejala_id', $g->id)->get();
+            
+            foreach ($rules as $rule) {
+                $kerusakan = $rule->kerusakan;
+                $cfRule = $rule->mb - $rule->md;
+                $cfUser = $g->pivot->cf_user;
+                $cfHasil = $cfRule * $cfUser;
+                
+                $detailPerhitungan[] = [
+                    'kerusakan' => $kerusakan->nama_kerusakan,
+                    'gejala' => $g->nama_gejala,
+                    'mb' => $rule->mb,
+                    'md' => $rule->md,
+                    'cf_rule' => $cfRule,
+                    'cf_user' => $cfUser,
+                    'cf_hasil' => $cfHasil
+                ];
+                
+                $cfValues[] = $cfHasil;
+            }
+        }
+        
+        // Hitung CF gabungan
+        $cfGabungan = 0;
+        if (!empty($cfValues)) {
+            $cfGabungan = $cfValues[0];
+            for ($i = 1; $i < count($cfValues); $i++) {
+                $cfGabungan = $cfGabungan + $cfValues[$i] * (1 - $cfGabungan);
+            }
+            $cfGabungan = round($cfGabungan * 100, 2);
+        }
+        
+        return view('konsultasi.detail_perhitungan', compact('konsultasi', 'gejalaDipilih', 'detailPerhitungan', 'cfGabungan'));
+    }
 }
