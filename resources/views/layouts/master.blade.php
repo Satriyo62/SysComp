@@ -37,6 +37,10 @@
                        href="{{ route('riwayat.index') }}">
                         <i class="bi bi-clock-history"></i> Riwayat Konsultasi
                     </a>
+                    <a class="nav-link text-white py-2 px-4 {{ request()->routeIs('ubah_password') ? 'bg-primary' : '' }}" 
+                    href="{{ route('ubah_password') }}">
+                        <i class="bi bi-key"></i> Ubah Password
+                    </a>
                     <hr class="bg-secondary mx-3">
                     <form action="{{ route('logout') }}" method="POST" class="px-3">
                         @csrf

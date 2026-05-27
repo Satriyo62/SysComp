@@ -7,6 +7,7 @@ use App\Http\Controllers\KerusakanController;
 use App\Http\Controllers\GejalaController;
 use App\Http\Controllers\RuleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KontakController;
 
 // ========== ROUTE LOGIN (WAJIB ADA AGAR MIDDLEWARE TIDAK ERROR) ==========
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -20,6 +21,8 @@ Route::get('/', function () {
 
 // ========== ALUR KONSULTASI USER (5 STEP) ==========
 Route::get('/konsultasi', [KonsultasiController::class, 'create'])->name('konsultasi.create');
+Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
+Route::post('/kontak', [KontakController::class, 'kirimPesan'])->name('kontak.kirim');
 Route::post('/konsultasi/biodata', [KonsultasiController::class, 'storeBiodata'])->name('konsultasi.storeBiodata');
 Route::get('/konsultasi/{konsultasi}/gejala', [KonsultasiController::class, 'pilihGejala'])->name('konsultasi.gejala');
 Route::post('/konsultasi/{konsultasi}/proses', [KonsultasiController::class, 'prosesKonsultasi'])->name('konsultasi.proses');
@@ -44,4 +47,8 @@ Route::middleware(['admin'])->group(function () {
     
     // Riwayat Konsultasi
     Route::get('/riwayat', [KonsultasiController::class, 'index'])->name('riwayat.index');
+
+    // Ubah Password Admin
+    Route::get('/ubah-password', [App\Http\Controllers\PasswordController::class, 'showChangeForm'])->name('ubah_password');
+    Route::post('/ubah-password', [App\Http\Controllers\PasswordController::class, 'update'])->name('ubah_password.update');
 });
